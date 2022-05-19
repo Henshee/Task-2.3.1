@@ -24,8 +24,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     public void updateUser(User user) {
-        User user1 = em.merge(user);
-        em.persist(user1);
+        if (em.createQuery("from User u where u.id = " + user.getId(), User.class).getResultList().size() != 0) {
+            em.merge(user);
+        }
     }
 
     @SuppressWarnings("unchecked")
